@@ -5,7 +5,7 @@ function Faq() {
     const FaqWrapper = styled.section.attrs({
         id: 'faq'
       })`
-    height: 100vh;
+    height: 75vh;
     background-color: white;
     padding: 20px;
 
@@ -18,7 +18,7 @@ function Faq() {
 
     return (
         <FaqWrapper>
-            <h2>Frequently Asked Questions</h2>
+            <h3>Frequently Asked Questions</h3>
 
                 <dt>Q: How often should I get my car serviced?</dt>
                 <dd>Answer: It's recommended to get your car serviced every 6 months or 10,000 miles, whichever comes first. 

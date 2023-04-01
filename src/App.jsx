@@ -4,6 +4,7 @@ import Footer from './components/footer'
 import Faq from './components/faq'
 import Services from './components/services'
 import Socialmedia from './components/socialmedia'
+import Parallax from './components/parallax'
 
 
 function App() {
@@ -11,11 +12,13 @@ function App() {
     return (
         <div className="App">
             <Navbar />
-
-            <Services />
             
-            <Faq />
+            
+            <Parallax />
             <Socialmedia />
+            <Faq />
+            
+            
             <Footer />
         </div>
     )
@@ -23,4 +26,4 @@ function App() {
 
 export default App
 
-//
+//<Services />

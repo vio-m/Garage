@@ -1,5 +1,23 @@
 body {
     font-family: Helvetica, Arial, sans-serif;
-}
+    overflow: scroll;
+  }
 
-
+/* Hide the scrollbar on all elements */
+::-webkit-scrollbar {
+    width: 0.5em;
+  }
+  
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0.25em;
+  }
+  
+::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  
+/* Hide the scrollbar in Firefox */
+* {
+    scrollbar-width: none;
+  }

@@ -15,12 +15,16 @@ const SocialmediaWrapper = styled.section.attrs({
             display: flex;
             justify-content: space-around;
         }
+        svg {
+            color: black;
+            font-size: 32px;
+        }
     `;
 
 function Socialmedia() {
     return (
         <SocialmediaWrapper>
-            <h2>FOLLOW US:</h2>
+            <h3>FOLLOW US:</h3>
             {/**/}
             <div className='icon-container'>
                 <div className='socialmedia-icon'>
