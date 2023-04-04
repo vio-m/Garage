@@ -1,16 +1,17 @@
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import v8 from "../assets/v8.avif"
-
-
 
 const ParallaxContainer = styled.div.attrs({
     id: 'parallax'
   })`
+  display: flex; 
+  align-items: center; 
   height: 75vh;
   overflow-x: hidden;
   overflow-y: auto;
   background-image: url('src/assets/v8.avif');
-  background-size: cover;
+  background-size: cover; /* 100% 100%; */
+  background-attachment: fixed; 
 
   &::before {
     content: '';
@@ -19,47 +20,78 @@ const ParallaxContainer = styled.div.attrs({
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: -1; /* add a negative z-index to make sure the pseudo-element is behind the content */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1; 
   }
 
   & > div {
     position: relative;
-    height: 150%;
-    background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    background-color: rgba(0,0,0,0.0);
     color: white;
-    transform: translateY(20%); /* adjust the transform property to move the child element down */
+    transform: translateY(0%); 
     z-index: 1;
     padding: 50px;
+    display: flex;
+    justify-content: space-around;
   }
 `;
 
-const Parallax = () => {
-  return (
-    <ParallaxContainer>
-      <div>
-      <h3>Services</h3>
+const Square = styled.div`
+  position: relative;
+  width: 250px;
+  height: 250px;
+  transform: rotate(45deg);
+  border: 10px solid white;
+  border-radius: 0;
+  opacity: 0.5;
+  box-sizing: border-box;
+`;
 
-        <p> Oil changes: Regular oil changes are essential for maintaining 
-            the health of your engine. An auto repair shop can change your 
-            oil and filter, and check other fluids and parts to ensure your 
-            car is running smoothly.</p>
-        <p> Brake repairs: Your brakes are one of the most important safety 
-            features on your car. An auto repair shop can perform routine
-            maintenance on your brakes, such as replacing brake pads or 
-            rotors, as well as diagnose and repair more complex brake issues.</p>
-        <p> Tire services: Your tires are essential for the safe operation of 
-            your vehicle. An auto repair shop can provide a range of tire 
-            services, including tire rotations, balancing, and replacements.</p>
-        <p> Engine diagnostics: If your car is experiencing engine problems,
-            an auto repair shop can perform diagnostic tests to determine the
-            cause of the issue. This can include checking for error codes,
-            inspecting engine components, and running performance tests.</p>
-        <p> Suspension and steering repairs: The suspension and steering 
-            system of your car is responsible for providing a smooth ride and 
-            easy handling. An auto repair shop can diagnose and repair issues 
-            with your suspension and steering, such as worn-out shocks or 
-            struts, broken steering components, and more.</p>
+const TextContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 32px;
+  text-transform: uppercase;
+`;
+
+const Parallax = () => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      const scrollOffset = container.scrollTop;
+      container.style.backgroundPositionY = `${-scrollOffset}px`;
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <ParallaxContainer ref={containerRef}>
+      <div>
+        <Square>
+          <TextContainer>
+            <>FAIR AND TRANSPARENT PRICING</>
+          </TextContainer>
+        </Square>
+        <Square>
+          <TextContainer>
+            <>HAPPINESS GUARANTEED</>
+          </TextContainer>
+        </Square>
+        <Square>
+          <TextContainer>
+            <>WE MAKE IT EASY</>
+          </TextContainer>
+        </Square>
       </div>
     </ParallaxContainer>
   );

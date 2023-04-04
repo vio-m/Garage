@@ -14,17 +14,24 @@ const NavbarWrapper = styled.nav`
     height: 80px;
     background-color: #363946;
     z-index: 1000;
-    transition: height 0.2s ease-in-out;
+    transition: height 0.3s ease-in-out;
 
     a {
         color: white;
         text-decoration: none;
     }
     &.scrolled {
-        height: 3px;
-        background-color: rgba(0,0,0,0.5);
+        height: 10px;
+        background-color: rgba(54, 57, 70, 0.3); /* is #363946 in rgba*/
         a {
             display: none;
+        }
+        &:hover {
+            height: 80px;
+            background-color: rgba(54, 57, 70, 0.8);
+            a {
+                display: block;
+            }
         }
     }
 `;

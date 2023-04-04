@@ -15,8 +15,12 @@ function App() {
             
             
             <Parallax />
-            <Socialmedia />
             <Faq />
+            
+
+            <Socialmedia />
+            <Services />
+            
             
             
             <Footer />
@@ -26,4 +30,4 @@ function App() {
 
 export default App
 
-//<Services />
+//
