@@ -5,6 +5,7 @@ import Faq from './components/faq'
 import Services from './components/services'
 import Socialmedia from './components/socialmedia'
 import Parallax from './components/parallax'
+import ParallaxEffect from './components/parallaxeffect'
 
 
 function App() {
@@ -15,12 +16,13 @@ function App() {
             
             
             <Parallax />
-            <Faq />
             
-
+            
+            <ParallaxEffect />
+            
             <Socialmedia />
-            <Services />
-            
+         
+            <Faq />
             
             
             <Footer />
@@ -30,4 +32,4 @@ function App() {
 
 export default App
 
-//
+//   <Services />

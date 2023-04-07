@@ -9,6 +9,24 @@ function Services() {
         background-color: #fafbfc;
         padding: 20px;
         padding-top: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 48px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 700;
+        }
+        
+        p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+            text-align: center;
+        }
       `;
 
     return (

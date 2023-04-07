@@ -14,7 +14,7 @@
 
 
 * Project created using Vite
-* Styled-components
+* Styled-components with CSS Selector Nesting
 * Material-icons
 * Typewriter-effect
 
