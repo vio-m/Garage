@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
 import map from "../assets/map.png"
+import { useEffect, useRef, useState } from "react";
+
 
 const FooterWrapper = styled.footer`
-    position: fixed;
+    position: relative;
     bottom: 0;
     left: 0;
     right: 0;
@@ -22,16 +23,24 @@ const ContactInfo = styled.div`
     justify-content: center;
     background-color: #363946;
     color: #fff;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+`;
+const MapContainer = styled.div`
+    flex: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
 `;
 const MapImage = styled.img`
-  flex: 1;
-  height: 100%;
-  object-fit: cover;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease-in-out;
 `;
 
 
 function Footer() {
-    const [showFooter, setShowFooter] = useState(false);
     const contactInfo = {
         name: "John Doe",
         email: "johndoe@example.com",
@@ -39,48 +48,73 @@ function Footer() {
         address: "123 Main St, Anytown USA",
     };
 
-    
+    const contactInfoRef = useRef(null);
+
     useEffect(() => {
-        const handleScroll = () => {
-        const scrollTop =
-            document.documentElement.scrollTop || document.body.scrollTop;
-        const scrollHeight =
-            document.documentElement.scrollHeight || document.body.scrollHeight;
-        const clientHeight =
-            document.documentElement.clientHeight || window.innerHeight;
-        const scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
-
-        if (scrolledToBottom) {
-            setShowFooter(true);
-        } else {
-            setShowFooter(false);
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting) {
+                contactInfoRef.current.style.opacity = 1;
+              } else {
+                contactInfoRef.current.style.opacity = 0;
+              }
+            },
+            { threshold: 0.5 }
+        );
+    
+        if (contactInfoRef.current) {
+          observer.observe(contactInfoRef.current);
         }
+    
+        return () => {
+          if (contactInfoRef.current) {
+            observer.unobserve(contactInfoRef.current);
+          }
         };
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
+
 
     return (
         <>
-        {showFooter && (
             <FooterWrapper >
 
-            <ContactInfo>
-                <h3>Contact Us</h3>
-                <p>{contactInfo.name}</p>
-                <p>{contactInfo.email}</p>
-                <p>{contactInfo.phone}</p>
-                <p>{contactInfo.address}</p>
-            </ContactInfo>
+                <ContactInfo ref={contactInfoRef}>
+                    <h3>Contact Us</h3>
+                    <p>{contactInfo.name}</p>
+                    <p>{contactInfo.email}</p>
+                    <p>{contactInfo.phone}</p>
+                    <p>{contactInfo.address}</p>
+                </ContactInfo>
 
-            <MapImage src={map} alt="Map" />
+                <MapContainer
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <MapImage
+                        src={map}
+                        alt="Map"
+                        style={{ transform: isHovered ? "scale(4)" : "scale(3)" }}
+                    />
+                </MapContainer>
 
             </FooterWrapper>
-        )}
         </>
     );
 }
 
 export default Footer;
+
+
+/*
+
+*/

@@ -14,18 +14,14 @@ function App() {
         <div className="App">
             <Navbar />
             
-            
-            <Parallax />
-            
-            
             <ParallaxEffect />
             
             <Socialmedia />
-         
+
             <Faq />
             
-            
             <Footer />
+            
         </div>
     )
 }
@@ -33,3 +29,7 @@ function App() {
 export default App
 
 //   <Services />
+
+//   <Parallax />
+
+//   

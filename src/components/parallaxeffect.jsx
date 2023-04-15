@@ -1,17 +1,43 @@
 import styled from 'styled-components';
 
 
-const ParallaxContainer = styled.div`
+const ParallaxContainer = styled.div.attrs({
+    id: 'parallax'
+  })`
     overflow-x: hidden;
     overflow-y: scroll;
     height: 75vh;
-    perspective: 1px;
+    perspective: 4px;
     transform-style: preserve-3d;
+    background-image: url('src/assets/v8.avif');
+    background-size: cover; /* 100% 100%; */
 `
-
-
+const Square = styled.div`
+  position: relative;
+  width: 250px;
+  height: 250px;
+  transform: rotate(45deg);
+  border: 10px solid white;
+  border-radius: 0;
+  opacity: 0.5;
+  box-sizing: border-box;
+`;
+const TextContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 32px;
+  text-transform: uppercase;
+`;
 const Header = styled.header`
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   min-height: 100vh;
   width: 100%;
   transform-style: inherit;
@@ -22,14 +48,13 @@ const Header = styled.header`
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     display: block;
-    background: url('src/assets/v8.avif') top center;
-    background-size: cover;
+    //background: url('src/assets/v8.avif') top center;
+    //background-size: cover;
     transform: translateZ(-1px) scale(2.1);
     min-height: 100%;
     z-index: -2;
   }
 `;
-
 const Section = styled.section`
   position: relative;
   min-height: 100vh;
@@ -38,7 +63,7 @@ const Section = styled.section`
   transform-style: inherit;
 
   &.section1 {
-    background: #fafafa;
+    background: rgba(0,0,0,0.3);
     box-shadow: 0 0 20px #333;
     z-index: 1;
 
@@ -46,6 +71,7 @@ const Section = styled.section`
       z-index: 3;
       transform: translate(-50%, -50%);
       box-shadow: none;
+
     }
   }
 
@@ -64,10 +90,12 @@ const Section = styled.section`
     & h1 {
       transform: translateZ(-.3px) scale(1.3) translate(-39%, -39%);
       z-index: 3;
+      background-color: rgba(0,0,0,0.3);
+      color: white;
+      width: 100%;
     }
   }
 `;
-
 const H1 = styled.h1`
   font-size: 4rem;
   text-align: center;
@@ -79,18 +107,17 @@ const H1 = styled.h1`
   left: 50%;
   transform: translateZ(-1px) scale(2) translate(-25%, -25%);
 `;
-
 const ServicesWrapper = styled.section.attrs({
     id: 'services'
 })`
-    height: 100vh;
-    background-color: #fafbfc;
+    height: 50vh;
+    background-color: rgba(0,0,0,0);
+    color: white;
     padding: 20px;
     padding-top: 80px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 
     h2 {
         margin-bottom: 20px;
@@ -111,34 +138,33 @@ const ParallaxEffect = () => {
   return (
     <ParallaxContainer>
       <Header style={{ transform: 'translateZ(-1px)' }}>
-        <H1>Services</H1>
+      <Square>
+          <TextContainer>
+            <>FAIR AND TRANSPARENT PRICING</>
+          </TextContainer>
+        </Square>
+        <Square>
+          <TextContainer>
+            <>HAPPINESS GUARANTEED</>
+          </TextContainer>
+        </Square>
+        <Square>
+          <TextContainer>
+            <>WE MAKE IT EASY</>
+          </TextContainer>
+        </Square>
       </Header>
       <Section className="section1" style={{ transform: 'translateZ(0)' }}>
         <ServicesWrapper>
-            <p> Oil changes: Regular oil changes are essential for maintaining 
-                the health of your engine. An auto repair shop can change your 
-                oil and filter, and check other fluids and parts to ensure your 
-                car is running smoothly.</p>
-            <p> Brake repairs: Your brakes are one of the most important safety 
-                features on your car. An auto repair shop can perform routine
-                 maintenance on your brakes, such as replacing brake pads or 
-                 rotors, as well as diagnose and repair more complex brake issues.</p>
-            <p> Tire services: Your tires are essential for the safe operation of 
-                your vehicle. An auto repair shop can provide a range of tire 
-                services, including tire rotations, balancing, and replacements.</p>
-            <p> Engine diagnostics: If your car is experiencing engine problems,
-                 an auto repair shop can perform diagnostic tests to determine the
-                  cause of the issue. This can include checking for error codes,
-                   inspecting engine components, and running performance tests.</p>
-            <p> Suspension and steering repairs: The suspension and steering 
-                system of your car is responsible for providing a smooth ride and 
-                easy handling. An auto repair shop can diagnose and repair issues 
-                with your suspension and steering, such as worn-out shocks or 
-                struts, broken steering components, and more.</p>
+            <p> Oil changes</p>
+            <p> Brake repairs</p>
+            <p> Tire services</p>
+            <p> Engine diagnostics</p>
+            <p> Suspension and steering repairs</p>
         </ServicesWrapper>
       </Section>
       <Section className="section2" style={{ transform: 'translateZ(-2px)' }}>
-        <H1>Section w/ parallax effect</H1>
+        <H1>We'll Fix'er!</H1>
       </Section>
     </ParallaxContainer>
   );
