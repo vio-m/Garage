@@ -6,6 +6,7 @@ import Services from './components/services'
 import Socialmedia from './components/socialmedia'
 import Parallax from './components/parallax'
 import ParallaxEffect from './components/parallaxeffect'
+import AppointmentBooking from './components/booking'
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
             <Socialmedia />
 
             <Faq />
+
+            <AppointmentBooking />
             
             <Footer />
             
