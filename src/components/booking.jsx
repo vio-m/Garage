@@ -48,35 +48,72 @@ const Button = styled.button`
     `;
 
 const CalendarWrapper = styled.div`
+    width: 50%;
     margin-top: 50px;
-    padding: 0rem;
-    border-radius: 0.5rem;
-    background-color: #f9fafb;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+    background-color: #E9EFF4;
     `;
-
-const CalendarButton = styled.button`
-    width: 4rem;
+const StyledDays = styled.div`
     height: 1.5rem;
-    border-radius: 0%;
-    font-weight: bold;
-    font-size: 0.875rem;
     outline: none;
-    `;
+    display: flex;
+    justify-content: space-between;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    button {
+        background-color: transparent;
+        border-radius: 0%;
+        border: none;
+        padding: 0px 20px;
+    }
+    button:hover {
+        cursor: pointer;
+    }
+    .selected {
+        background-color: #9c9c9c;
+        color: white;
+    }
+  
+    /* Make the component draggable in webkit-based browsers */
+    &::-webkit-scrollbar-thumb {
+      background-color: #c9c9c9;
+      border-radius: 50px;
+    }
+  
+    &:active::-webkit-scrollbar-thumb {
+      background-color: #9c9c9c;
+    }
+  
+    /* Make the component draggable in Firefox */
+    scroll-behavior: smooth;
+    scrollbar-color: #c9c9c9 transparent;
+    scrollbar-width: thin;
+  
+    /* Style the draggable thumb in Firefox */
+    &::-moz-scrollbar-thumb {
+      background-color: #c9c9c9;
+      border-radius: 50px;
+    }
+  
+    &:active::-moz-scrollbar-thumb {
+      background-color: #9c9c9c;
+    }
+  `;
+
+
 
 const RangeInputWrapper = styled.div`
     width: 50%;
-    margin-top: 50px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
 `;
-
 const RangeInputLabel = styled.label`
     opacity: 0;
 `;
-
 const RangeInput = styled.input.attrs(props => ({
     type: 'range',
     min: '9',
@@ -97,7 +134,10 @@ const RangeInput = styled.input.attrs(props => ({
     height: 16px;
     background-color: #fafafa;
     border-radius: 0%;
-    cursor: pointer;
+    cursor: grab;
+  }
+  &::-moz-range-thumb:active {
+    cursor: grabbing;
   }
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -105,13 +145,16 @@ const RangeInput = styled.input.attrs(props => ({
     width: 48px;
     background-color: #fafafa;
     border-radius: 0%;
-    cursor: pointer;
+    cursor: grab;
+  }
+  &::-webkit-slider-thumb:active {
+    cursor: grabbing;
   }
 `;
 const RangeInputValue = styled.span`
     display: inline-block;
     position: relative;
-    width: 40px;
+    width: 80px;
     height: 20px;
     border: 1px solid #ccc;
     border-radius: 0px;
@@ -123,6 +166,11 @@ const RangeInputValue = styled.span`
     color: #000;
     margin-left: 5px;
     margin-bottom: 3px;
+    opacity: 0;
+
+    &.active {
+        opacity: 1;
+    }
 
     &::after {
     content: '';
@@ -139,22 +187,81 @@ const RangeInputValue = styled.span`
 function AppointmentBooking() {
     const inputRef = useRef(null);
     const [inputWidth, setInputWidth] = useState(0);
+    const [isRangeInputActive, setIsRangeInputActive] = useState(false);
     const [value, setValue] = useState(9);
+    const [today, setToday] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState();
     const [service, setService] = useState('');
-    const [date, setDate] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
 
     useEffect(() => {
-        if (inputRef.current) {
-          setInputWidth(inputRef.current.offsetWidth);
-        }
-    }, []);
+        console.log("Selected date has changed:", selectedDate);
+      }, [selectedDate]);
 
+    const renderDays = () => {
+        const days = [];
+
+        for (let i = 0; i < 7; i++) {
+          const day = new Date(today);
+          day.setDate(today.getDate() + i);
+          days.push(day);
+        }
+        
+        return days.map((day) => {
+          const isWeekend = day.getDay() === 0 || day.getDay() === 6;
+          const label = day.toDateString() === new Date().toDateString() ? "TODAY" : day.getDate();
+
+          
+          return (
+            <button
+              key={day}
+              onClick={() => {setSelectedDate(label); console.dir(label)}}
+              className={selectedDate === label ? "selected" : ""}
+              disabled={isWeekend}
+            >
+              {label}
+            </button>
+          );
+        });
+    };
+
+    useEffect(() => {
+        if (inputRef.current) {
+            setInputWidth(inputRef.current.offsetWidth);
+        }
+        const handleResize = () => {
+            if (inputRef.current) {
+                setInputWidth(inputRef.current.offsetWidth);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+    
     const handleRangeChange = (event) => {
         setValue(parseFloat(event.target.value));
     }
+    const handleRangeInputMouseDown = () => {
+        setIsRangeInputActive(true);
+      };
+    const handleRangeInputMouseUp = () => {
+        setIsRangeInputActive(false);
+    };
+
+    function formatTime(value) {
+        const date = new Date();
+        const hours = Math.floor(value);
+        const minutes = Math.round((value - hours) * 60);
+        date.setHours(hours);
+        date.setMinutes(minutes);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+
 
     function handleSubmit(event) {
             event.preventDefault();
@@ -175,22 +282,20 @@ function AppointmentBooking() {
                         <option value="Brake Repair">Brake Repair</option>
                     </Select>
                 </Label>
+
                 
+
                 <CalendarWrapper>
-                    <CalendarButton active>Today</CalendarButton>
-                    <CalendarButton>27</CalendarButton>
-                    <CalendarButton active>28</CalendarButton>
-                    <CalendarButton active>29</CalendarButton>
-                    <CalendarButton active>30</CalendarButton>
-                    <CalendarButton active>31</CalendarButton>
+                    <StyledDays>{renderDays()}</StyledDays>
                 </CalendarWrapper>
 
                 <RangeInputWrapper>
                     <RangeInputLabel htmlFor="hour-select"> - {value} - </RangeInputLabel>
                     <RangeInputValue
+                        className={isRangeInputActive ? 'active' : ''}
                         style={{ left: `calc(${(value-9) * 12}%)` }}
                         >
-                        {value}~{inputWidth}
+                        {formatTime(value)}
                     </RangeInputValue>
                     <RangeInput 
                         ref={inputRef}
@@ -198,6 +303,8 @@ function AppointmentBooking() {
                         name="hour-select" 
                         value={value}
                         onChange={handleRangeChange}
+                        onMouseDown={handleRangeInputMouseDown}
+                        onMouseUp={handleRangeInputMouseUp}
                     />
                     
                 </RangeInputWrapper>
