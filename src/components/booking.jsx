@@ -1,13 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const BookingContainer = styled.div.attrs({
     id: 'booking'
   })`
-    border: 1px solid red;
-    height: 50rem;
+    display: flex;
+    align-items: center;
+    background-color: #363946;
+    height: 40rem;
 `
 const Form = styled.form`
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -223,6 +228,48 @@ const RangeInputValue = styled.span`
   }
 `;
 
+    // contact 
+const ContactContainer = styled.div.attrs({
+    id: 'contact'
+  })`
+  width: 80%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  border-radius: 20px;
+  background-color: #fff;
+`;
+
+const Input = styled.input`
+  width: 50%;
+  padding: 10px;
+  border: none;
+  overflow: hidden;
+  outline: none;
+  background-color: transparent;
+`;
+
+const ToggleButton = styled.button`
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  left: ${({ active }) => (active ? '50%' : '0')};
+  transform: translateY(-50%);
+  background-color: #363946;
+  color: white;
+  cursor: pointer;
+  border-radius: 20px;
+  border: 4px solid #fff;
+  padding: 5px 20px;
+  transition: left 0.3s ease;
+  & > svg {
+    font-size: 14px;
+  }
+  `;
+
+
 function AppointmentBooking() {
     const buttonLabels = ["Oil", "Brakes", "Tires", "Engine"];
     const [isSelected, setIsSelected] = useState(false);
@@ -233,6 +280,7 @@ function AppointmentBooking() {
     const [value, setValue] = useState(9);
     const [today, setToday] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState();
+    const [activeInput, setActiveInput] = useState('email');
     const [service, setService] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -306,7 +354,9 @@ function AppointmentBooking() {
             event.preventDefault();
             console.log("appointment confirmed")    
     }
-
+    const handleToggle = () => {
+        setActiveInput(activeInput === 'email' ? 'phone' : 'email');
+    };
 
     return (
         <BookingContainer>
@@ -336,8 +386,19 @@ function AppointmentBooking() {
                         onMouseDown={handleRangeInputMouseDown}
                         onMouseUp={handleRangeInputMouseUp}
                     />
-                    
                 </RangeInputWrapper>
+
+                <ContactContainer>
+
+                        <Input type="email" placeholder="Email" />
+                        <Input type="tel" placeholder="Phone number" />
+                        <ToggleButton active={activeInput === 'phone'} onClick={handleToggle}>
+                            <ChevronLeftIcon />
+                            <ChevronRightIcon />
+                        </ToggleButton>
+
+                </ContactContainer>
+                
 
             </Form>
         </BookingContainer>

@@ -19,7 +19,7 @@ function App() {
             
             <Socialmedia />
 
-            <Faq />
+            
 
             <AppointmentBooking />
             
@@ -35,4 +35,4 @@ export default App
 
 //   <Parallax />
 
-//   
+//   <Faq />
