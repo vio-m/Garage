@@ -7,6 +7,7 @@ import Socialmedia from './components/socialmedia'
 import Parallax from './components/parallax'
 import ParallaxEffect from './components/parallaxeffect'
 import AppointmentBooking from './components/booking'
+import Chat from './components/chat'
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
             
             <Socialmedia />
 
-            
+            <Chat />
 
             <AppointmentBooking />
             
@@ -36,3 +37,5 @@ export default App
 //   <Parallax />
 
 //   <Faq />
+
+//   
