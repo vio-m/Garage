@@ -22,7 +22,7 @@ function App() {
 
             <Chat />
 
-            <AppointmentBooking />
+            
             
             <Footer />
             
@@ -38,4 +38,4 @@ export default App
 
 //   <Faq />
 
-//   
+//   <AppointmentBooking />
