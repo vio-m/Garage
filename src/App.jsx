@@ -8,25 +8,28 @@ import Parallax from './components/parallax'
 import ParallaxEffect from './components/parallaxeffect'
 import AppointmentBooking from './components/booking'
 import Chat from './components/chat'
+import { ChatProvider } from './components/ChatContext';
 
 
 function App() {
 
     return (
-        <div className="App">
-            <Navbar />
-            
-            <ParallaxEffect />
-            
-            <Socialmedia />
+        <ChatProvider>
+            <div className="App">
+                <Navbar />
+                
+                <ParallaxEffect />
+                
+                <Socialmedia />
 
-            <Chat />
+                <Chat />
 
-            
-            
-            <Footer />
-            
-        </div>
+                
+                
+                <Footer />
+                
+            </div>
+        </ChatProvider>
     )
 }
 

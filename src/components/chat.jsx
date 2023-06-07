@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import styled from 'styled-components';
+import { ChatContext } from './ChatContext';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -7,6 +8,7 @@ import 'firebase/compat/analytics';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import NearMeIcon from '@mui/icons-material/NearMe';
+
 
 firebase.initializeApp({
     apiKey: import.meta.env.VITE_API_KEY,
@@ -192,12 +194,12 @@ const Message = styled.div`
 `;
 
 function Chat() {
-    const [chatActive, setChatActive] = useState(false);
+    const { chatActive, setChatActive } = useContext(ChatContext);
     const [user] = useAuthState(auth);
 
     return (
         <>
-            <Button onClick={() => setChatActive(!chatActive)}>Chat</Button>
+            
             {chatActive && (
                 <ChatBackground>
                     <ChatContainer>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect, useContext } from 'react';
+import { ChatContext } from './ChatContext';
 
 const NavbarWrapper = styled.nav`
     position: fixed;
@@ -10,7 +10,6 @@ const NavbarWrapper = styled.nav`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
     height: 80px;
     background-color: #363946;
     z-index: 1000;
@@ -20,29 +19,51 @@ const NavbarWrapper = styled.nav`
         color: white;
         text-decoration: none;
     }
+    
     &.scrolled {
         height: 10px;
         background-color: rgba(54, 57, 70, 0.3); /* is #363946 in rgba*/
         a {
             display: none;
         }
+        button {
+            display: none;
+        }
         &:hover {
             height: 80px;
             background-color: rgba(54, 57, 70, 0.8);
             a {
-                display: block;
+                display: inline-block;
+            }
+            button {
+                display: inline-block;
             }
         }
     }
 `;
-const Logo = styled.div`
-    font-size: 24px;
+const Container = styled.div`
+    font-size: 16px;
     font-weight: 900;
     color: #fff;
+`;
+const Link = styled.a`
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+`;
+const Button = styled.button`
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 900;
 `;
 
 function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const { chatActive, setChatActive } = useContext(ChatContext);
     
     useEffect(() => {
         const handleScroll = () => {
@@ -62,14 +83,14 @@ function Navbar() {
 
     return (
         <NavbarWrapper className={isScrolled ? 'scrolled' : ''}>
-            <Logo>
-                <a href="/">AutoFixer</a>
-            </Logo>
-            
-            <a href="#services">Services</a>
-            <a href="#faq">FAQ</a>
+            <Container>
+                <Link href="/">AutoFixer</Link>
+                <Link href="#services">Services</Link>
+                <Link href="#faq">FAQ</Link>
+                <Button onClick={() => setChatActive(!chatActive)}>Chat</Button>
+            </Container>
         </NavbarWrapper>
     )
 }
 
-export default Navbar
+export default Navbar;
