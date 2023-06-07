@@ -29,6 +29,10 @@ const ChatBackground = styled.div`
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 10;
+  
+  &#Chat {
+    border-radius: 5px;
+  }
 `;
 
 const ChatContainer = styled.div.attrs({
@@ -36,12 +40,18 @@ const ChatContainer = styled.div.attrs({
   })`
     text-align: center;
     max-width: 728px;
+    min-width: 40vw;
     margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
 `;
 
 const Header = styled.header`
     background-color: #363946;
-    height: 10vh;
+    height: 8vh;
     min-height: 50px;
     color: white;
     position: relative;
@@ -50,16 +60,19 @@ const Header = styled.header`
     top: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px;
+    justify-content: space-around;
     box-sizing: border-box;
+    border-radius: 5px 5px 0 0;
+    & button {
+        padding: 0;
+    }
 `;
 
 const Section = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 100vh;
+    height: 80vh;
     background-color: #363946;
 `;
 
@@ -70,6 +83,7 @@ const MainContainer = styled.main`
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
 
     &::-webkit-scrollbar {
         width: 0.25rem;
@@ -85,7 +99,7 @@ const MainContainer = styled.main`
 `;
 
 const FormContainer = styled.form`
-    height: 10vh;
+    height: 8vh;
     position: absolute;
     bottom: 0;
     background-color: rgb(24, 23, 23);
@@ -93,10 +107,13 @@ const FormContainer = styled.form`
     max-width: 728px;
     display: flex;
     font-size: 1.5rem;
+    border-top: 3px solid #4c4c6a;
+
 
     button {
         width: 20%;
         background-color: rgb(56, 56, 143);
+
     }
 
     input {
@@ -108,6 +125,7 @@ const FormContainer = styled.form`
         outline: none;
         border: none;
         padding: 0 10px;
+
     }
 `;
 
@@ -128,39 +146,44 @@ const Button = styled.button`
     }
 `;
 
-const Message = styled.div.attrs({
-    className: 'message'
-  })`
+const Message = styled.div`
+    box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
+    padding: 10px 20px;
 
-    p {
-        max-width: 500px;
-        margin-bottom: 12px;
-        line-height: 24px;
+    & div {
+        flex: 1;
         padding: 10px 20px;
-        border-radius: 25px;
         position: relative;
         color: white;
-        text-align: center;
+    }
+    & span {
+        color: rgba(0,0,0,.38);
+        font-size: 8pt;
     }
 
-    .sent {
+    &.sent {
+        border-radius: 0 6px 6px 0;
+        margin-left: -10px;
+        background: #5b5e6c;
+        div {
+            text-align: left;
+        }
+    }
+
+    &.received {
+        border-radius: 6px 0 0 6px ;
+        margin-right: -10px;
+        background: #4c4c6a;
         flex-direction: row-reverse;
+        div {
+            text-align: right;
+        }
     }
 
-    .sent p {
-        color: white;
-        background: #0b93f6;
-        align-self: flex-end;
-    }
-
-    .received p {
-        background: #e5e5ea;
-        color: black;
-    }
-
-    img {
+    & img {
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -255,13 +278,21 @@ function ChatRoom() {
 
 
 function ChatMessage(props) {
-    const { text, uid, photoURL } = props.message;
+    const { text, uid, photoURL, createdAt } = props.message;
     const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
+    const formattedDate = createdAt.toDate().toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric'
+      });
+
     return (<>
-        <Message className={` ${messageClass}`}>
-            <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
-            <p>{text}</p>
+        <Message className={messageClass}>
+            <img src={photoURL || 'https://i.stack.imgur.com/nUJ73.png'} />
+            <div>
+                <p>{text}</p>
+                <span>{formattedDate}</span>
+            </div>
         </Message>
     </>)
 }
