@@ -113,11 +113,12 @@ const ServicesWrapper = styled.section.attrs({
     height: 50vh;
     background-color: rgba(0,0,0,0);
     color: white;
+    font-weight: 900;
     padding: 20px;
     padding-top: 80px;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 
     h2 {
         margin-bottom: 20px;
@@ -125,14 +126,53 @@ const ServicesWrapper = styled.section.attrs({
         text-transform: uppercase;
         letter-spacing: 5px;
         font-weight: 700;
+    }     
+`;
+const Services = styled.div`
+    width: 200px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .slide {
+        position:absolute;
+        width: 200px;
+        left: -200px;
+        height: 50px;
+        border-right: 3px solid transparent;
+        transition: all .8s ease-in-out;
     }
-    
-    p {
-        margin-bottom: 10px;
-        line-height: 1.5;
-        text-align: center;
+
+    ::before {
+        content: ${(props) => `'${props.beforeContent}'`};
+        opacity: 1;
+        transition: opacity .8s ease-in-out;
+        position: absolute;
+    }
+    ::after {
+        content: attr(data-content);
+        opacity: 0;
+        transition: opacity .8s ease-in-out;
+        position: absolute;
+    }
+
+    :hover {
+        &::before {
+            opacity: 0;
+        }
+        &::after {
+            opacity: 1;
+        }
+        .slide {
+            border-right: 3px solid #34495e;
+            left: 0px;
+        }
     }
 `;
+
 
 const ParallaxEffect = () => {
   return (
@@ -156,11 +196,21 @@ const ParallaxEffect = () => {
       </Header>
       <Section className="section1" style={{ transform: 'translateZ(0)' }}>
         <ServicesWrapper>
-            <p> Oil changes</p>
-            <p> Brake repairs</p>
-            <p> Tire services</p>
-            <p> Engine diagnostics</p>
-            <p> Suspension and steering repairs</p>
+            <Services beforeContent="Oil changes" data-content="Pricing from $10">
+                <div className="slide" ></div>
+            </Services>    
+            <Services beforeContent="Brake repairs" data-content="Rates from $10">
+                <div className="slide" ></div>
+            </Services>
+            <Services beforeContent="Tire services" data-content="As low as $10">
+                <div className="slide" ></div>
+            </Services>
+            <Services beforeContent="Engine diagnostics" data-content="Free of charge*">
+                <div className="slide" ></div>
+            </Services>
+            <Services beforeContent="Suspension & steering" data-content="Starting at $10">
+                <div className="slide" ></div>
+            </Services>
         </ServicesWrapper>
       </Section>
       <Section className="section2" style={{ transform: 'translateZ(-2px)' }}>

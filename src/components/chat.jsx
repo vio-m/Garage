@@ -75,6 +75,7 @@ const Section = styled.section`
     flex-direction: column;
     justify-content: center;
     height: 80vh;
+    max-width: 728px;
     background-color: #363946;
 `;
 
