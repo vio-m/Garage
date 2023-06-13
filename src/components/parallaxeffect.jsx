@@ -12,48 +12,127 @@ const ParallaxContainer = styled.div.attrs({
     background-image: url('src/assets/v8.avif');
     background-size: cover; /* 100% 100%; */
 `
-const Square = styled.div`
-  position: relative;
-  width: 250px;
-  height: 250px;
-  transform: rotate(45deg);
-  border: 10px solid white;
-  border-radius: 0;
-  opacity: 0.5;
-  box-sizing: border-box;
-`;
-const TextContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-45deg);
-  width: 100%;
-  text-align: center;
-  color: white;
-  font-size: 32px;
-  text-transform: uppercase;
-`;
 const Header = styled.header`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  min-height: 100vh;
-  width: 100%;
-  transform-style: inherit;
-  z-index: -1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 100vh;
+    width: 100%;
+    transform-style: inherit;
+    z-index: -1;
 
-  &::before {
-    content: '';
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        display: block;
+        //background: url('src/assets/v8.avif') top center;
+        //background-size: cover;
+        transform: translateZ(-1px) scale(2.1);
+        min-height: 100%;
+        z-index: -2;
+    }
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
+`;
+const Square = styled.div`
+    position: relative;
+    width: 250px;
+    height: 250px;
+    transform: rotate(45deg);
+    border-radius: 0;
+    opacity: 0.6;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    ::before,
+    ::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 10px;
+        background-color: white;
+        z-index: 2;
+        transition: 0.35s;
+    }
+
+    ::before {
+        top: 0;
+        right: 0;
+    }
+
+    ::after {
+        bottom: 0;
+        left: 0;
+    }
+
+    :hover::before,
+    :hover::after {
+        width: 0%;
+        transition: 0.2s 0.2s ease-out;
+    }
+
+    @media screen and (max-width: 1024px) {
+        width: 200px;
+        height: 200px;
+    }
+`;
+const Inner = styled.div`
+    position: relative;
+    width: 250px;
+    height: 250px;
+    transform: rotate(90deg);
+
+    ::before,
+    ::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      background-color: white;
+      z-index: 2;
+      transition: 0.35s;
+    }
+
+    ::before {
+        top: 0;
+        right: 0;
+    }
+
+    ::after {
+        bottom: 0;
+        left: 0;
+    }
+
+    :hover::before,
+    :hover::after {
+        width: 0%;
+        transition: 0.2s 0.2s ease-out;
+    }
+
+    @media screen and (max-width: 1024px) {
+        width: 200px;
+        height: 200px;
+    }
+`
+const Text = styled.div`
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    display: block;
-    //background: url('src/assets/v8.avif') top center;
-    //background-size: cover;
-    transform: translateZ(-1px) scale(2.1);
-    min-height: 100%;
-    z-index: -2;
-  }
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-135deg);
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 32px;
+    text-transform: uppercase;
+
+    @media screen and (max-width: 1024px) {
+        font-size: 26px;
+    }
+
 `;
 const Section = styled.section`
   position: relative;
@@ -175,49 +254,43 @@ const Services = styled.div`
 
 
 const ParallaxEffect = () => {
-  return (
-    <ParallaxContainer>
-      <Header style={{ transform: 'translateZ(-1px)' }}>
-      <Square>
-          <TextContainer>
-            <>FAIR AND TRANSPARENT PRICING</>
-          </TextContainer>
-        </Square>
-        <Square>
-          <TextContainer>
-            <>HAPPINESS GUARANTEED</>
-          </TextContainer>
-        </Square>
-        <Square>
-          <TextContainer>
-            <>WE MAKE IT EASY</>
-          </TextContainer>
-        </Square>
-      </Header>
-      <Section className="section1" style={{ transform: 'translateZ(0)' }}>
-        <ServicesWrapper>
-            <Services beforeContent="Oil changes" data-content="Pricing from $10">
-                <div className="slide" ></div>
-            </Services>    
-            <Services beforeContent="Brake repairs" data-content="Rates from $10">
-                <div className="slide" ></div>
-            </Services>
-            <Services beforeContent="Tire services" data-content="As low as $10">
-                <div className="slide" ></div>
-            </Services>
-            <Services beforeContent="Engine diagnostics" data-content="Free of charge*">
-                <div className="slide" ></div>
-            </Services>
-            <Services beforeContent="Suspension & steering" data-content="Starting at $10">
-                <div className="slide" ></div>
-            </Services>
-        </ServicesWrapper>
-      </Section>
-      <Section className="section2" style={{ transform: 'translateZ(-2px)' }}>
-        <H1>We'll Fix'er!</H1>
-      </Section>
-    </ParallaxContainer>
-  );
+    return (
+        <ParallaxContainer>
+        <Header style={{ transform: 'translateZ(-1px)' }}>
+            <Square>
+                <Inner><Text>FAIR AND TRANSPARENT PRICING</Text></Inner>
+            </Square>
+            <Square>
+                <Inner><Text><>HAPPINESS GUARANTEED</></Text></Inner>
+            </Square>
+            <Square>
+                <Inner><Text><>WE MAKE IT EASY</></Text></Inner>
+            </Square>
+        </Header>
+        <Section className="section1" style={{ transform: 'translateZ(0)' }}>
+            <ServicesWrapper>
+                <Services beforeContent="Oil changes" data-content="Pricing from $10">
+                    <div className="slide" ></div>
+                </Services>    
+                <Services beforeContent="Brake repairs" data-content="Rates from $40">
+                    <div className="slide" ></div>
+                </Services>
+                <Services beforeContent="Tire services" data-content="As low as $15">
+                    <div className="slide" ></div>
+                </Services>
+                <Services beforeContent="Engine diagnostics" data-content="Free of charge*">
+                    <div className="slide" ></div>
+                </Services>
+                <Services beforeContent="Suspension & steering" data-content="Starting at $50">
+                    <div className="slide" ></div>
+                </Services>
+            </ServicesWrapper>
+        </Section>
+        <Section className="section2" style={{ transform: 'translateZ(-2px)' }}>
+            <H1>We'll Fix'er!</H1>
+        </Section>
+        </ParallaxContainer>
+    );
 };
 
 export default ParallaxEffect;
