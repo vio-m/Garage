@@ -1,111 +1,174 @@
 import styled from "styled-components";
 import map from "../assets/map.png"
 import { useEffect, useRef, useState } from "react";
-
+import Socialmedia from './socialmedia'
 
 const FooterWrapper = styled.footer`
     position: relative;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 30vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.5s ease-in-out;
-`;
-const ContactInfo = styled.div`
-    flex: 1;
-    height: 100%;
+    font-family: "Barlow",sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    background: linear-gradient(rgba(0, 0, 0, .9), rgba(0, 0, 0, .9)), url(../src/assets/pitstop.jpg) center center no-repeat;
+    background-size: cover;
     background-color: #363946;
     color: #fff;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
 `;
-const MapContainer = styled.div`
-    flex: 1;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
+const Container = styled.div`
     display: flex;
+    justify-content: space-around;
+    width: 80%;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    @media screen and (max-width: 768px) {
+        width: 90%;
+    }
+    @media screen and (max-width: 900px) {
+        width: 100%;
+    }
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+    }
+`
+const ContactInfo = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
+    padding-left: 10%;
+    h3 {
+        margin-bottom: 25px;
+    }
+    div {
+        margin-bottom: 10px;
+    }
+    @media screen and (max-width: 768px) {
+        padding-left: 50px;
+    }
+    @media screen and (max-width: 600px) {
+        padding-left: 50px;
+        h3 {
+            margin-top: 50px;
+        }
+    }
 `;
-const MapImage = styled.img`
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease-in-out;
-`;
+const OpeningHours = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
+    padding-left: 10%;
+    h3 {
+        margin-bottom: 25px;
+    }
+    div {
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+    span {
+        font-size: 16px;
+        margin-bottom: 20px;
+        font-weight: 300;
+    }
+    @media screen and (max-width: 768px) {
+        padding-left: 0px;
+    }
+    @media screen and (max-width: 600px) {
+        padding-left: 50px;
+    }
+`
+const Copy = styled.div`
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 14px;
+    span {
+        background-color: grey;
+        width: 400px;
+        height: 1px;
+    }
+    @media screen and (max-width: 600px) {
+        font-size: 12px;
+        span {
+            width: 300px;
+        }
+    }
+`
+const Top = styled.button`
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: transparent;
+    border: 3px solid white;
+    color: white;
+    text-align: center;
+    font-size: 23px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    &:hover {
+        bottom: 23px;
+    }
+`
 
 
 function Footer() {
     const contactInfo = {
-        name: "John Doe",
-        email: "johndoe@example.com",
-        phone: "(123) 456-7890",
-        address: "123 Main St, Anytown USA",
+        name: " Auto-Fixxer LLC",
+        email: " JohnDoe@example.com",
+        phone: " (123) 456-7890",
+        address: " 123 Main St, Anytown USA",
+    };
+    const scrollToTop = () => {
+        console.log("SCROLLING")
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
     };
 
-    const contactInfoRef = useRef(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-              if (entry.isIntersecting) {
-                contactInfoRef.current.style.opacity = 1;
-              } else {
-                contactInfoRef.current.style.opacity = 0;
-              }
-            },
-            { threshold: 0.5 }
-        );
     
-        if (contactInfoRef.current) {
-          observer.observe(contactInfoRef.current);
-        }
-    
-        return () => {
-          if (contactInfoRef.current) {
-            observer.unobserve(contactInfoRef.current);
-          }
-        };
-    }, []);
-
-    const [isHovered, setIsHovered] = useState(false);
-
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-    };
-
-
     return (
         <>
             <FooterWrapper >
+                <Container>
+                    <ContactInfo>
+                        <h3>Contact</h3>
 
-                <ContactInfo ref={contactInfoRef}>
-                    <h3>Contact Us</h3>
-                    <p>{contactInfo.name}</p>
-                    <p>{contactInfo.email}</p>
-                    <p>{contactInfo.phone}</p>
-                    <p>{contactInfo.address}</p>
-                </ContactInfo>
+                        <div><i class="fa fa-map-marker-alt me-3" style={{ marginRight: '10px' }}></i>{contactInfo.address}</div>
+                        <div><i class="fa fa-phone-alt me-3" style={{ marginRight: '10px' }}></i>{contactInfo.phone}</div>
+                        <div><i class="fa fa-envelope me-3" style={{ marginRight: '10px' }}></i>{contactInfo.email}</div>   
+                        <div><i class="fa fa-building me-3" style={{ marginRight: '10px' }}></i>{contactInfo.name}</div>                    
+                    
+                        <Socialmedia />
+                    </ContactInfo>
 
-                <MapContainer
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    <MapImage
-                        src={map}
-                        alt="Map"
-                        style={{ transform: isHovered ? "scale(4)" : "scale(3)" }}
-                    />
-                </MapContainer>
+                    <OpeningHours>
+                        <h3>Opening Hours</h3>
+
+                        <div>Monday - Friday:</div>
+                        <span><i class="far fa-clock text-primary me-2" style={{ marginRight: '10px' }}></i>09.00 AM - 09.00 PM</span>
+                        <div>Saturday:</div>
+                        <span><i class="far fa-clock text-primary me-2" style={{ marginRight: '10px' }}></i>09.00 AM - 02.00 PM</span>
+                        <div>Sunday:</div>
+                        <span><i class="fa fa-ban" style={{ marginRight: '10px' }}></i>CLOSED</span>
+                    </OpeningHours>
+                </Container>
+
+                <Copy>
+                    <span></span>
+                    <div>&#169; 1989  CodeGarage  &#8226;  All Rights Reserved. </div>  
+                </ Copy>
+
+                <Top onClick={scrollToTop}>
+                    <i class="fa-solid fa-chevron-up"></i>
+                </Top>
 
             </FooterWrapper>
         </>
@@ -117,4 +180,31 @@ export default Footer;
 
 /*
 
+
+
+
+
+
+--------------------------------------------------------------
+
+    // Back to top button
+	window.addEventListener('scroll', function() {
+	    var backToTopButton = document.querySelector('.back-to-top');
+	    if (window.pageYOffset > 100) {
+		backToTopButton.style.display = 'block';
+	    } else {
+		backToTopButton.style.display = 'none';
+	    }
+	});
+
+	document.querySelector('.back-to-top').addEventListener('click', function() {
+	    var scrollToTop = function() {
+		var position = document.body.scrollTop || document.documentElement.scrollTop;
+		if (position > 0) {
+		    window.requestAnimationFrame(scrollToTop);
+		    window.scrollTo(0, position - position / 8);
+		}
+	    };
+	    scrollToTop();
+	});
 */

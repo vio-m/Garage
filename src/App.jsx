@@ -1,44 +1,39 @@
+// App.jsx
 import './App.css'
+import styled from "styled-components";
 import Navbar from './components/navbar'
-import Footer from './components/footer'
-import Faq from './components/faq'
-import Services from './components/services'
-import Socialmedia from './components/socialmedia'
-import Parallax from './components/parallax'
 import ParallaxEffect from './components/parallaxeffect'
-import AppointmentBooking from './components/booking'
-import Chat from './components/chat'
+//import Footer from './components/footer'
 import { ChatProvider } from './components/ChatContext';
+import Chat from './components/chat';
+
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
 
 
 function App() {
-
     return (
         <ChatProvider>
-            <div className="App">
-                <Navbar />
-                
-                <ParallaxEffect />
-                
-                <Socialmedia />
-
+            <PageContainer>
                 <Chat />
+                <Navbar/>    
+                <ParallaxEffect />
 
-                
-                
-                <Footer />
-                
-            </div>
+            </PageContainer>
         </ChatProvider>
     )
 }
 
-export default App
+export default App;
 
-//   <Services />
 
-//   <Parallax />
+/*
+               
+                <Chat />
 
-//   <Faq />
-
-//   <AppointmentBooking />
+*/

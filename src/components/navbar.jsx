@@ -1,96 +1,179 @@
 import styled from "styled-components";
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { ChatContext } from './ChatContext';
 
-const NavbarWrapper = styled.nav`
-    position: fixed;
-    top: 0;
+
+const NavbarWrapper = styled.nav.attrs({
+    id: 'navbar'
+  })`
+    position: absolute;
+    top: 0px;
     left: 0;
     right: 0;
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 80px;
-    background-color: #363946;
+    justify-content: end;
+    height: 60px;
+    background-image: url('src/assets/v8nav.webp');
+    border-bottom: 1px solid white;
     z-index: 1000;
-    transition: height 0.3s ease-in-out;
+    transition: height 0.3s ease;
 
-    a {
+    :hover {
+        height: 65px;
+    }
+
+    div > a, button {
         color: white;
-        text-decoration: none;
+        font-weight: 900;
+        text-transform: uppercase;  
+        text-decoration: none;  
+        cursor: pointer;
+        padding-left: 40px;
+        padding-right: 40px;    
+    }
+
+    @media screen and (min-width: 1632px) {
+        background-size: cover;
+    }
+
+    &.expanded {
+        background-image: none;
+        backdrop-filter: blur(10px);
+        transition: background 0.3s ease;
+        height: 100%;
+        div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+        }
+        div > a, button {
+            font-size: 24px;
+            letter-spacing: 3px;
+            padding: 30px;
+        }
     }
     
-    &.scrolled {
-        height: 10px;
-        background-color: rgba(54, 57, 70, 0.3); /* is #363946 in rgba*/
-        a {
-            display: none;
-        }
-        button {
-            display: none;
-        }
-        &:hover {
-            height: 80px;
-            background-color: rgba(54, 57, 70, 0.8);
-            a {
-                display: inline-block;
-            }
-            button {
-                display: inline-block;
-            }
-        }
-    }
 `;
 const Container = styled.div`
-    font-size: 16px;
-    font-weight: 900;
-    color: #fff;
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
 `;
-const Link = styled.a`
+const Burger = styled.div`
+    position: absolute;
+    top: 25%;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    /*filter: blur(1px);
+    transition: all 0.3s;*/
+
+    span {
+        width: 100%;
+        height: 3px;
+        border-radius: .25rem;
+        background-color: #f4f4f4;
+        transition: transform 0.3s;
+    }
+    &:hover {
+        span:nth-of-type(1) {
+          transform: translateX(-3px);
+        }
+        span:nth-of-type(3) {
+          transform: translateX(3px);
+        }
+    }
+    @media screen and (min-width: 768px) {
+        display: none;
+    }
+}
+`;
+const Close = styled.span`
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 30px;
     color: white;
-    text-decoration: none;
-    padding: 10px;
+    cursor: pointer;
+    filter: blur(1px);
+    transition: all 0.3s;
+
+    ::before {
+      content: 'X';
+    }
+
+    :hover {
+        transform: scale(1.2);
+        filter: blur(0px);
+    }
+
+    @media screen and (min-width: 768px) {
+        display: none;
+    }
+`
+const Link = styled.a`
+    :hover {
+        color: #28e;
+    }
 `;
 const Button = styled.button`
     background-color: transparent;
     border: none;
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
     font-size: 16px;
-    font-weight: 900;
+    :hover {
+        color: #28e;
+    }
 `;
 
-function Navbar() {
-    const [isScrolled, setIsScrolled] = useState(false);
+
+function Navbar({ servicesRef, faqRef }) {
+    const [isExpanded, setIsExpanded] = useState(false);
     const { chatActive, setChatActive } = useContext(ChatContext);
-    
-    useEffect(() => {
-        const handleScroll = () => {
-          if (window.pageYOffset > 0) {
-            setIsScrolled(true);
-          } else {
-            setIsScrolled(false);
-          }
-        };
-    
-        window.addEventListener('scroll', handleScroll);
-    
-        return () => {
-          window.removeEventListener('scroll', handleScroll);
-        };
-      }, []);
+    const toggleExpanded = () => {
+        setIsExpanded(!isExpanded);
+    };
+    const scrollToSection = (ref) => {
+        //
+        const section = document.getElementById(ref);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+            if (isExpanded==true){
+                toggleExpanded();
+            }
+        }
+    };
+
 
     return (
-        <NavbarWrapper className={isScrolled ? 'scrolled' : ''}>
+        <NavbarWrapper className={isExpanded ? 'expanded' : ''}>
             <Container>
-                <Link href="/">AutoFixer</Link>
-                <Link href="#services">Services</Link>
-                <Link href="#faq">FAQ</Link>
+                <Link href="/">GaRage</Link>
+                <Link onClick={() => scrollToSection('booking')}>Booking</Link>
+                <Link onClick={() => scrollToSection('faq')}>FAQ</Link>
                 <Button onClick={() => setChatActive(!chatActive)}>Chat</Button>
             </Container>
+
+            {isExpanded ? (
+                <Close  onClick={toggleExpanded} />
+            ) : (
+                <Burger onClick={toggleExpanded}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </Burger>
+            )}
         </NavbarWrapper>
     )
 }
 
 export default Navbar;
+
+/*
+
+*/

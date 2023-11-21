@@ -1,60 +1,115 @@
 import styled from "styled-components";
+import { useState } from 'react';
 
 
-function Services() {
-    const ServicesWrapper = styled.section.attrs({
-        id: 'services'
-      })`
-        height: 100vh;
-        background-color: #fafbfc;
-        padding: 20px;
-        padding-top: 80px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+const ServicesWrapper = styled.section.attrs({
+    id: 'services'
+})`
+    height: 10vh;
 
-        h2 {
-            margin-bottom: 20px;
-            font-size: 48px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            font-weight: 700;
+    font-weight: 900;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgba(255,255,255,0.7);
+    h2 {
+        margin-bottom: 20px;
+        font-size: 48px;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-weight: 700;
+    }
+    
+`;
+const ServicesContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    @media screen and (max-width: 768px) {
+        overflow: scroll;
+    }
+`;
+const Service = styled.div`
+    width: 200px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /*cursor: pointer;*/
+    .slide {
+        position:absolute;
+        width: 200px;
+        left: -200px;
+        height: 50px;
+        border-right: 3px solid transparent;
+        transition: all .8s ease-in-out;
+    }
+    ::before {
+        content: ${(props) => `'${props.beforeContent}'`};
+        opacity: 1;
+        transition: opacity .8s ease-in-out;
+        position: absolute;
+    }
+    ::after {
+        content: attr(data-content);
+        opacity: 0;
+        transition: opacity .8s ease-in-out;
+        position: absolute;
+    }
+    :hover {
+        &::before {
+            opacity: 0;
         }
-        
-        p {
-            margin-bottom: 10px;
-            line-height: 1.5;
-            text-align: center;
+        &::after {
+            opacity: 1;
         }
-      `;
+        .slide {
+            border-right: 3px solid #28e;
+            left: 0px;
+        }
+    }
+`;
 
+
+function Services () {
+    
     return (
         <ServicesWrapper>
-            <h2>Services</h2>
-
-            <p> Oil changes: Regular oil changes are essential for maintaining 
-                the health of your engine. An auto repair shop can change your 
-                oil and filter, and check other fluids and parts to ensure your 
-                car is running smoothly.</p>
-            <p> Brake repairs: Your brakes are one of the most important safety 
-                features on your car. An auto repair shop can perform routine
-                 maintenance on your brakes, such as replacing brake pads or 
-                 rotors, as well as diagnose and repair more complex brake issues.</p>
-            <p> Tire services: Your tires are essential for the safe operation of 
-                your vehicle. An auto repair shop can provide a range of tire 
-                services, including tire rotations, balancing, and replacements.</p>
-            <p> Engine diagnostics: If your car is experiencing engine problems,
-                 an auto repair shop can perform diagnostic tests to determine the
-                  cause of the issue. This can include checking for error codes,
-                   inspecting engine components, and running performance tests.</p>
-            <p> Suspension and steering repairs: The suspension and steering 
-                system of your car is responsible for providing a smooth ride and 
-                easy handling. An auto repair shop can diagnose and repair issues 
-                with your suspension and steering, such as worn-out shocks or 
-                struts, broken steering components, and more.</p>
+            <ServicesContainer>
+                <Service
+                    beforeContent="Oil changes"
+                    data-content="Pricing from $10"
+                    >
+                    <div className="slide"></div>
+                </Service>
+                <Service
+                    beforeContent="Brake repairs"
+                    data-content="Rates from $40"
+                    >
+                    <div className="slide"></div>
+                </Service>
+                <Service
+                    beforeContent="Tire services"
+                    data-content="As low as $15"
+                    >
+                    <div className="slide"></div>
+                </Service>
+                <Service
+                    beforeContent="Engine diagnostics"
+                    data-content="Free of charge*"
+                    >
+                    <div className="slide"></div>
+                </Service>
+            </ServicesContainer>
         </ServicesWrapper>
-    )
-}
+    );
+};
 
-export default Services
+export default Services;
+
+/*
+
+*/

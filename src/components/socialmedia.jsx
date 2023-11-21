@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ShareIcon from '@mui/icons-material/Share';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -9,36 +10,54 @@ const SocialmediaWrapper = styled.section.attrs({
         id: 'socialmedia'
     })`
         position: relative;
-        height: 5vh;
-        background-color: #363946;
-        padding: 10px 20px;
-        
-        > div {
-            display: flex;
-            justify-content: space-around;
-        }
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background-color: rgba(0, 0, 0, 0);
         svg {
             color: white;
-            font-size: 32px;
+            font-size: 20px;
         }
-        h3 {
-            color: white;
+        .socialmedia-content {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba (0.0.0.0);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1;
+        }
+        .socialmedia-content:hover {
+            transform: scaleX(1);
+        }
+        .share {
+            cursor: pointer;
+        }
+        .share:hover > svg {
+            color: #28e;
+        }
+        .share:hover + .socialmedia-content {
+            transform: scaleX(1);
         }
         a {
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 50px;
+            font-size: 12px;
             text-decoration: none;
             position: relative;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             overflow: hidden;
         }
         a::before {
             content: attr(data-text);
             position: absolute;
-            top: 40%;
+            top: 70%;
             left: 50%;
             white-space: nowrap;
             transform: translate(-100%) scaleX(0);
@@ -47,29 +66,15 @@ const SocialmediaWrapper = styled.section.attrs({
         a:hover::before {
             transform: translate(-50%) scaleX(1);
         }
-        .socialmedia-content {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: #363946;
-            padding: 20px;
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 0.3s ease-in-out;
-            z-index: 1;
-        }
-        :hover .socialmedia-content {
-            transform: scaleY(1);
-        }
 
     `;
 
 function Socialmedia() {
     return (
         <SocialmediaWrapper>
-            <h3>FOLLOW US:</h3>
-           
+
+            <div className="share"><ShareIcon /></div>
+
             <div className="socialmedia-content">
                 
                     <a href='https://www.facebook.com/facebook' target="_blank" data-text="Facebook"><FacebookIcon  size='large'/></a>
@@ -81,7 +86,6 @@ function Socialmedia() {
                     <a href='https://www.pinterest.com/pinterest/' target="_blank" data-text="Pinterest">< PinterestIcon/></a>
                 
             </div>
-
             
         </SocialmediaWrapper>
     )
@@ -90,5 +94,5 @@ function Socialmedia() {
 export default Socialmedia
 
 /*
-
+#363946
 */

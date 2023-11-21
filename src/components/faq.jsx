@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import styled from "styled-components";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Typewriter from 'typewriter-effect';
@@ -7,14 +7,16 @@ import Typewriter from 'typewriter-effect';
 const FaqWrapper = styled.section.attrs({
     id: 'faq'
 })`
-    height: 75vh;
-    background-color: white;
+    height: 100vh;
+    background-color: rgba(0,0,0,0);
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     h3 {
         padding-bottom: 50px;
+        color: white;
     }
 `;
 const QACard = styled.div`
@@ -26,7 +28,8 @@ const QACard = styled.div`
 const Q = styled.div`
     position: relative;
     width: 100%;
-    background-color: #f2f2f2;
+    background-color: rgba(0,0,0,0);
+    color: white;
     padding: 20px;
     font-size: 18px;
     font-weight: 500;
@@ -51,6 +54,7 @@ const ADiv = styled.div`
 `
 const A = styled(Typewriter)`
 `;
+
 
 
 const Faq = () => {
@@ -89,7 +93,6 @@ const Faq = () => {
             showAnswer: false,
         },
     ]);
-
     const toggleAnswer = (index) => {
         setSelectedQaIndex(index === selectedQaIndex ? -1 : index);
     };
@@ -119,9 +122,9 @@ const Faq = () => {
             </FaqWrapper>
         </>
     );
-}
+};
 
-export default Faq
+export default Faq;
 
 /*
  
